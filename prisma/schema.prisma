@@ -1,0 +1,69 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN   // manages the whole system
+  MANAGER // manages resources (rooms/equipment) and can see all bookings
+  USER    // can only manage their own bookings
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+}
+
+model User {
+  id           String    @id @default(uuid())
+  name         String
+  email        String    @unique
+  passwordHash String
+  role         Role      @default(USER)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  bookings     Booking[]
+
+  @@map("users")
+}
+
+model Resource {
+  id          String    @id @default(uuid())
+  name        String
+  description String?
+  capacity    Int       @default(1)
+  location    String?
+  isActive    Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  bookings    Booking[]
+
+  @@map("resources")
+}
+
+model Booking {
+  id         String        @id @default(uuid())
+  startTime  DateTime
+  endTime    DateTime
+  status     BookingStatus @default(CONFIRMED)
+  notes      String?
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+
+  userId     String
+  user       User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  resourceId String
+  resource   Resource      @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+
+  // Speeds up the conflict-detection query (same resource, overlapping window)
+  @@index([resourceId, startTime, endTime])
+  @@map("bookings")
+}
