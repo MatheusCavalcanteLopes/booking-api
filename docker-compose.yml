@@ -31,5 +31,20 @@ services:
       db:
         condition: service_healthy
 
+  web:
+    build:
+      context: ./frontend
+      args:
+        # Baked into the JS bundle at build time (Vite env vars aren't
+        # readable at container runtime). Must be the HOST-exposed API
+        # port: the browser running the bundle is outside the Docker
+        # network and can't resolve the `api` service's internal DNS name.
+        VITE_API_URL: http://localhost:3000
+    restart: unless-stopped
+    ports:
+      - "5173:80"
+    depends_on:
+      - api
+
 volumes:
   booking_api_db_data:
