@@ -4,8 +4,17 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  // DATABASE_URL: pooled (PgBouncer/transaction mode) — used at runtime by
+  // the app, safe for serverless functions that open/close connections
+  // constantly. DIRECT_URL: unpooled — `prisma migrate deploy` needs a
+  // direct connection (advisory locks don't work reliably through a
+  // transaction-mode pooler). Locally, both can point at the same
+  // Postgres instance; only hosted pooled setups (e.g. Supabase) need
+  // them to actually differ. Falls back to DATABASE_URL when DIRECT_URL
+  // isn't set, so local dev doesn't need a second variable.
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 enum Role {
