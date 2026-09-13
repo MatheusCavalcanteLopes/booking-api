@@ -14,7 +14,7 @@ export function NavBar() {
       <nav className="mx-auto flex max-w-4xl items-center justify-between px-4 py-3">
         <div className="flex items-center gap-6">
           <span className="flex items-center gap-2 font-semibold text-slate-900">
-            <img src="/favicon.svg" alt="" className="h-6 w-6" />
+            <img src="/logo.svg" alt="" className="h-6 w-6" />
             Booking API
           </span>
           <NavLink to="/resources" className={linkClass}>
