@@ -6,6 +6,7 @@ import { formatApiError } from '../../lib/formatApiError';
 import { translateErrorMessage } from '../../i18n/errorMessages';
 import { Button } from '../ui/Button';
 import { LanguageSwitcher } from '../ui/LanguageSwitcher';
+import { LoadingOverlay } from '../ui/LoadingOverlay';
 
 const linkClass = ({ isActive }: { isActive: boolean }) =>
   `text-sm font-medium ${isActive ? 'text-slate-900' : 'text-slate-500 hover:text-slate-700'}`;
@@ -14,10 +15,12 @@ export function NavBar() {
   const { user, logout, isPreviewingAdmin, enterAdminPreview, exitAdminPreview } = useAuth();
   const { t } = useLocale();
   const [toggleError, setToggleError] = useState<string | null>(null);
+  const [isToggling, setIsToggling] = useState(false);
   const canToggleAdminPreview = isPreviewingAdmin || user?.role === 'USER';
 
   async function handleToggleAdminPreview() {
     setToggleError(null);
+    setIsToggling(true);
     try {
       if (isPreviewingAdmin) {
         await exitAdminPreview();
@@ -26,11 +29,14 @@ export function NavBar() {
       }
     } catch (error) {
       setToggleError(translateErrorMessage(formatApiError(error).message, t));
+    } finally {
+      setIsToggling(false);
     }
   }
 
   return (
     <header className="border-b border-slate-200 bg-white">
+      {isToggling && <LoadingOverlay />}
       <nav className="mx-auto flex max-w-4xl items-center justify-between px-4 py-3">
         <div className="flex items-center gap-6">
           <span className="flex items-center gap-2 font-semibold text-slate-900">
@@ -53,7 +59,8 @@ export function NavBar() {
                 role="switch"
                 aria-checked={isPreviewingAdmin}
                 onClick={handleToggleAdminPreview}
-                className={`relative h-5 w-9 shrink-0 rounded-full transition-colors ${
+                disabled={isToggling}
+                className={`relative h-5 w-9 shrink-0 rounded-full transition-colors disabled:opacity-60 ${
                   isPreviewingAdmin ? 'bg-slate-900' : 'bg-slate-300'
                 }`}
               >
@@ -75,7 +82,12 @@ export function NavBar() {
       {isPreviewingAdmin && (
         <div className="border-t border-amber-200 bg-amber-50 px-4 py-1.5 text-center text-xs font-medium text-amber-800">
           {t('nav.previewBanner')}{' '}
-          <button type="button" onClick={handleToggleAdminPreview} className="underline">
+          <button
+            type="button"
+            onClick={handleToggleAdminPreview}
+            disabled={isToggling}
+            className="underline disabled:opacity-60"
+          >
             {t('nav.turnOff')}
           </button>
         </div>
