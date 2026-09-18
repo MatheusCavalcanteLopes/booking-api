@@ -2,11 +2,14 @@ export type Role = 'ADMIN' | 'MANAGER' | 'USER';
 
 export type BookingStatus = 'PENDING' | 'CONFIRMED' | 'CANCELLED';
 
+export type Locale = 'pt-BR' | 'en';
+
 export interface User {
   id: string;
   name: string;
   email: string;
   role: Role;
+  locale: Locale;
 }
 
 export interface Resource {

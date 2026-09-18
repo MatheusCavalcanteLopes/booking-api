@@ -4,6 +4,7 @@ import helmet from 'helmet';
 import { authRoutes } from './modules/auth/auth.routes';
 import { resourceRoutes } from './modules/resources/resource.routes';
 import { bookingRoutes } from './modules/bookings/booking.routes';
+import { userRoutes } from './modules/users/user.routes';
 import { errorHandler } from './shared/middlewares/errorHandler';
 
 /**
@@ -25,6 +26,7 @@ export function buildApp(): Application {
   app.use('/auth', authRoutes);
   app.use('/resources', resourceRoutes);
   app.use('/bookings', bookingRoutes);
+  app.use('/users', userRoutes);
 
   // Must be the LAST middleware registered: Express only treats a
   // 4-arg middleware as an error handler, and order matters.

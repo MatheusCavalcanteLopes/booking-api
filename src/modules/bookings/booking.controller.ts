@@ -28,4 +28,10 @@ export const bookingController = {
     const booking = await bookingService.cancel(req.params.id, req.user);
     res.status(200).json({ booking });
   }),
+
+  clearTrash: asyncHandler(async (req: Request, res: Response) => {
+    if (!req.user) throw new UnauthorizedError();
+    await bookingService.clearCancelled(req.user.id);
+    res.status(204).send();
+  }),
 };

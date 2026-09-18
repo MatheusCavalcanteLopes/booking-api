@@ -3,6 +3,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { BookingForm } from '../components/resources/BookingForm';
+import { LocaleProvider } from '../i18n/LocaleContext';
 import type { Resource } from '../types/api';
 
 const mutateAsyncMock = vi.fn();
@@ -53,7 +54,9 @@ function renderForm() {
   const queryClient = new QueryClient();
   return render(
     <QueryClientProvider client={queryClient}>
-      <BookingForm resource={resource} onClose={vi.fn()} />
+      <LocaleProvider>
+        <BookingForm resource={resource} onClose={vi.fn()} />
+      </LocaleProvider>
     </QueryClientProvider>
   );
 }
@@ -61,6 +64,9 @@ function renderForm() {
 describe('BookingForm', () => {
   beforeEach(() => {
     mutateAsyncMock.mockReset();
+    // Locks tests to English regardless of jsdom's navigator.language, so
+    // assertions against literal strings stay meaningful.
+    localStorage.setItem('booking-api.locale-override', 'en');
   });
 
   it('renders a distinct conflict banner on a 409 and keeps the entered values', async () => {

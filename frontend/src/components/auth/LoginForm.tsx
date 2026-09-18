@@ -1,7 +1,9 @@
 import { useState, type FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { useLocale } from '../../i18n/LocaleContext';
 import { formatApiError } from '../../lib/formatApiError';
+import { translateErrorMessage } from '../../i18n/errorMessages';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 import { ErrorBanner } from '../ui/ErrorBanner';
@@ -9,6 +11,7 @@ import { ErrorBanner } from '../ui/ErrorBanner';
 export function LoginForm() {
   const { login } = useAuth();
   const navigate = useNavigate();
+  const { t } = useLocale();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
@@ -27,12 +30,16 @@ export function LoginForm() {
     } catch (error) {
       const formatted = formatApiError(error);
       if (formatted.kind === 'validation') {
-        setFieldErrors(formatted.fields);
+        const translated: Record<string, string> = {};
+        for (const [field, message] of Object.entries(formatted.fields)) {
+          translated[field] = translateErrorMessage(message, t);
+        }
+        setFieldErrors(translated);
       } else {
         // 401 "Invalid email or password" is intentionally generic on the
         // backend (doesn't say which field is wrong, to avoid leaking
         // which emails are registered) — keep that ambiguity in the UI too.
-        setFormError(formatted.message);
+        setFormError(translateErrorMessage(formatted.message, t));
       }
     } finally {
       setIsSubmitting(false);
@@ -43,7 +50,7 @@ export function LoginForm() {
     <form onSubmit={handleSubmit} className="space-y-4">
       {formError && <ErrorBanner message={formError} />}
       <Input
-        label="Email"
+        label={t('auth.login.email')}
         type="email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
@@ -51,7 +58,7 @@ export function LoginForm() {
         required
       />
       <Input
-        label="Password"
+        label={t('auth.login.password')}
         type="password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
@@ -59,7 +66,7 @@ export function LoginForm() {
         required
       />
       <Button type="submit" disabled={isSubmitting} className="w-full">
-        {isSubmitting ? 'Signing in…' : 'Sign in'}
+        {isSubmitting ? t('auth.login.signingIn') : t('auth.login.signIn')}
       </Button>
     </form>
   );

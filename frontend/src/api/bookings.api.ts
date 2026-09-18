@@ -15,3 +15,7 @@ export async function cancelBooking(id: string): Promise<Booking> {
   const { data } = await apiClient.delete<{ booking: Booking }>(`/bookings/${id}`);
   return data.booking;
 }
+
+export async function clearTrash(): Promise<void> {
+  await apiClient.delete('/bookings/trash');
+}
