@@ -14,6 +14,8 @@ const KNOWN_MESSAGES: Record<string, string> = {
   'You can only cancel your own bookings': 'errors.notYourBooking',
   'You do not have permission to perform this action': 'errors.forbidden',
   'Resource not found or not available': 'errors.resourceUnavailable',
+  'Admin preview is only available for regular user accounts': 'errors.adminPreviewNotEligible',
+  'You are not currently in admin preview': 'errors.adminPreviewNotActive',
   'Resource not found': 'errors.resourceNotFound',
   'Booking not found': 'errors.bookingNotFound',
   'startTime must be in the future': 'errors.validation.startTimeFuture',

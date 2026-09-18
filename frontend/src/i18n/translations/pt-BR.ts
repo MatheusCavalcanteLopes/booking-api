@@ -9,7 +9,7 @@ export const ptBR: TranslationDictionary = {
     admin: 'Admin',
     logout: 'Sair',
     tryAsAdmin: 'Testar como Admin',
-    previewBanner: 'Você está testando como o admin de demonstração.',
+    previewBanner: 'Sua conta está com permissões de admin para teste agora.',
     turnOff: 'Desativar',
   },
   auth: {
@@ -107,6 +107,8 @@ export const ptBR: TranslationDictionary = {
     notYourBooking: 'Você só pode cancelar suas próprias reservas',
     forbidden: 'Você não tem permissão para realizar esta ação',
     resourceUnavailable: 'Recurso não encontrado ou indisponível',
+    adminPreviewNotEligible: 'O teste como admin só está disponível para contas de usuário comum',
+    adminPreviewNotActive: 'Você não está no modo de teste como admin no momento',
     resourceNotFound: 'Recurso não encontrado',
     bookingNotFound: 'Reserva não encontrada',
     validation: {

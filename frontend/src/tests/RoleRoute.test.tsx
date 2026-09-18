@@ -13,7 +13,7 @@ vi.mock('../context/AuthContext', () => ({
 }));
 
 function userWithRole(role: Role): User {
-  return { id: 'u1', name: 'Test User', email: 'test@example.com', role, locale: 'en' };
+  return { id: 'u1', name: 'Test User', email: 'test@example.com', role, locale: 'en', previewRole: null };
 }
 
 function renderAdminRoute() {

@@ -9,7 +9,7 @@ export const en = {
     admin: 'Admin',
     logout: 'Log out',
     tryAsAdmin: 'Try as Admin',
-    previewBanner: "You're testing as the demo admin.",
+    previewBanner: "Your account has admin permissions for testing right now.",
     turnOff: 'Turn off',
   },
   auth: {
@@ -107,6 +107,8 @@ export const en = {
     notYourBooking: 'You can only cancel your own bookings',
     forbidden: 'You do not have permission to perform this action',
     resourceUnavailable: 'Resource not found or not available',
+    adminPreviewNotEligible: 'Admin preview is only available for regular user accounts',
+    adminPreviewNotActive: 'You are not currently in admin preview',
     resourceNotFound: 'Resource not found',
     bookingNotFound: 'Booking not found',
     validation: {

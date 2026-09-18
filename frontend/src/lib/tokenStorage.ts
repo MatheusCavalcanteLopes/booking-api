@@ -7,10 +7,6 @@ interface StoredSession {
 }
 
 const STORAGE_KEY = 'booking-api.session';
-// Holds the real session while "Try as Admin" is swapped in — its mere
-// presence is what tells the app "we're previewing", so this survives a
-// page reload without extra state to keep in sync.
-const STASH_KEY = 'booking-api.stashed-session';
 
 // The only module allowed to touch localStorage directly, so every other
 // module (apiClient, AuthContext, LocaleContext) can be tested/reasoned
@@ -48,32 +44,5 @@ export const tokenStorage = {
 
   clear(): void {
     localStorage.removeItem(STORAGE_KEY);
-  },
-
-  stashOriginal(): void {
-    const current = tokenStorage.get();
-    if (!current) return;
-    localStorage.setItem(STASH_KEY, JSON.stringify(current));
-  },
-
-  restoreOriginal(): StoredSession | null {
-    const raw = localStorage.getItem(STASH_KEY);
-    if (!raw) return null;
-    localStorage.removeItem(STASH_KEY);
-    try {
-      const session = JSON.parse(raw) as StoredSession;
-      tokenStorage.set(session);
-      return session;
-    } catch {
-      return null;
-    }
-  },
-
-  discardStash(): void {
-    localStorage.removeItem(STASH_KEY);
-  },
-
-  hasStashedOriginal(): boolean {
-    return localStorage.getItem(STASH_KEY) !== null;
   },
 };

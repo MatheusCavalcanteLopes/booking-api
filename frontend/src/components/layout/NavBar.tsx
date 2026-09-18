@@ -18,12 +18,12 @@ export function NavBar() {
 
   async function handleToggleAdminPreview() {
     setToggleError(null);
-    if (isPreviewingAdmin) {
-      exitAdminPreview();
-      return;
-    }
     try {
-      await enterAdminPreview();
+      if (isPreviewingAdmin) {
+        await exitAdminPreview();
+      } else {
+        await enterAdminPreview();
+      }
     } catch (error) {
       setToggleError(translateErrorMessage(formatApiError(error).message, t));
     }
@@ -75,7 +75,7 @@ export function NavBar() {
       {isPreviewingAdmin && (
         <div className="border-t border-amber-200 bg-amber-50 px-4 py-1.5 text-center text-xs font-medium text-amber-800">
           {t('nav.previewBanner')}{' '}
-          <button type="button" onClick={exitAdminPreview} className="underline">
+          <button type="button" onClick={handleToggleAdminPreview} className="underline">
             {t('nav.turnOff')}
           </button>
         </div>

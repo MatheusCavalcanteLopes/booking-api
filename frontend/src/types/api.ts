@@ -10,6 +10,9 @@ export interface User {
   email: string;
   role: Role;
   locale: Locale;
+  // Non-null only while "Try as Admin" has this account temporarily
+  // elevated — the role to restore on exit. See AuthContext#exitAdminPreview.
+  previewRole: Role | null;
 }
 
 export interface Resource {
