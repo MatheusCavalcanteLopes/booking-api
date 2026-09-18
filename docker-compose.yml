@@ -23,6 +23,7 @@ services:
       - "3000:3000"
     environment:
       DATABASE_URL: postgresql://postgres:postgres@db:5432/booking_api?schema=public
+      DIRECT_URL: postgresql://postgres:postgres@db:5432/booking_api?schema=public
       JWT_ACCESS_SECRET: dev-access-secret-change-me
       JWT_REFRESH_SECRET: dev-refresh-secret-change-me
       PORT: 3000

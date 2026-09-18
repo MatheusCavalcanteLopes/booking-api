@@ -1,9 +1,14 @@
 import { BookingRow } from './BookingRow';
 import type { Booking } from '../../types/api';
 
-export function BookingList({ bookings }: { bookings: Booking[] }) {
+interface BookingListProps {
+  bookings: Booking[];
+  emptyMessage: string;
+}
+
+export function BookingList({ bookings, emptyMessage }: BookingListProps) {
   if (bookings.length === 0) {
-    return <p className="text-sm text-slate-500">You have no bookings yet.</p>;
+    return <p className="text-sm text-slate-500">{emptyMessage}</p>;
   }
 
   return (

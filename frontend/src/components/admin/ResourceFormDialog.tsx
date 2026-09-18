@@ -1,5 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import { useCreateResource, useUpdateResource } from '../../hooks/useResources';
+import { useLocale } from '../../i18n/LocaleContext';
+import { translateErrorMessage } from '../../i18n/errorMessages';
 import { formatApiError } from '../../lib/formatApiError';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
@@ -12,6 +14,7 @@ interface ResourceFormDialogProps {
 }
 
 export function ResourceFormDialog({ resource, onClose }: ResourceFormDialogProps) {
+  const { t } = useLocale();
   const isEditing = Boolean(resource);
   const [name, setName] = useState(resource?.name ?? '');
   const [description, setDescription] = useState(resource?.description ?? '');
@@ -46,9 +49,13 @@ export function ResourceFormDialog({ resource, onClose }: ResourceFormDialogProp
     } catch (error) {
       const formatted = formatApiError(error);
       if (formatted.kind === 'validation') {
-        setFieldErrors(formatted.fields);
+        const translated: Record<string, string> = {};
+        for (const [field, message] of Object.entries(formatted.fields)) {
+          translated[field] = translateErrorMessage(message, t);
+        }
+        setFieldErrors(translated);
       } else {
-        setFormError(formatted.message);
+        setFormError(translateErrorMessage(formatted.message, t));
       }
     }
   }
@@ -56,25 +63,27 @@ export function ResourceFormDialog({ resource, onClose }: ResourceFormDialogProp
   return (
     <div className="rounded-lg border border-slate-200 bg-white p-4">
       <h3 className="mb-3 font-semibold text-slate-900">
-        {isEditing ? `Edit "${resource?.name}"` : 'New resource'}
+        {isEditing
+          ? t('admin.resourceForm.editHeading', { name: resource?.name ?? '' })
+          : t('admin.resourceForm.newHeading')}
       </h3>
       <form onSubmit={handleSubmit} className="space-y-4">
         {formError && <ErrorBanner message={formError} />}
         <Input
-          label="Name"
+          label={t('admin.resourceForm.name')}
           value={name}
           onChange={(e) => setName(e.target.value)}
           error={fieldErrors.name}
           required
         />
         <Input
-          label="Description (optional)"
+          label={t('admin.resourceForm.description')}
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           error={fieldErrors.description}
         />
         <Input
-          label="Capacity"
+          label={t('admin.resourceForm.capacity')}
           type="number"
           min={1}
           value={capacity}
@@ -83,17 +92,17 @@ export function ResourceFormDialog({ resource, onClose }: ResourceFormDialogProp
           required
         />
         <Input
-          label="Location (optional)"
+          label={t('admin.resourceForm.location')}
           value={location}
           onChange={(e) => setLocation(e.target.value)}
           error={fieldErrors.location}
         />
         <div className="flex gap-2">
           <Button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? 'Saving…' : 'Save'}
+            {isSubmitting ? t('admin.resourceForm.saving') : t('admin.resourceForm.save')}
           </Button>
           <Button type="button" variant="secondary" onClick={onClose}>
-            Cancel
+            {t('admin.resourceForm.cancel')}
           </Button>
         </div>
       </form>

@@ -89,4 +89,13 @@ export const bookingService = {
       data: { status: BookingStatus.CANCELLED },
     });
   },
+
+  // "Empty the trash": a hard delete, unlike cancel(). Cancelled bookings
+  // have no further business purpose once the user chooses to clear them,
+  // so this actually removes the rows rather than just changing status.
+  async clearCancelled(userId: string) {
+    await prisma.booking.deleteMany({
+      where: { userId, status: BookingStatus.CANCELLED },
+    });
+  },
 };

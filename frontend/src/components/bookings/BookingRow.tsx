@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { useCancelBooking } from '../../hooks/useBookings';
+import { useLocale } from '../../i18n/LocaleContext';
+import { translateErrorMessage } from '../../i18n/errorMessages';
 import { formatApiError } from '../../lib/formatApiError';
 import { formatDateTime, hoursUntil } from '../../lib/datetime';
 import { Button } from '../ui/Button';
@@ -13,6 +15,7 @@ const statusClasses: Record<Booking['status'], string> = {
 
 export function BookingRow({ booking }: { booking: Booking }) {
   const cancelBooking = useCancelBooking();
+  const { t } = useLocale();
   const [error, setError] = useState<string | null>(null);
 
   const isConfirmed = booking.status === 'CONFIRMED';
@@ -26,7 +29,7 @@ export function BookingRow({ booking }: { booking: Booking }) {
     try {
       await cancelBooking.mutateAsync(booking.id);
     } catch (err) {
-      setError(formatApiError(err).message);
+      setError(translateErrorMessage(formatApiError(err).message, t));
     }
   }
 
@@ -43,7 +46,7 @@ export function BookingRow({ booking }: { booking: Booking }) {
         <span
           className={`rounded-full border px-2 py-0.5 text-xs font-medium ${statusClasses[booking.status]}`}
         >
-          {booking.status}
+          {t(`bookings.status.${booking.status}`)}
         </span>
       </div>
       {isConfirmed && (
@@ -52,13 +55,9 @@ export function BookingRow({ booking }: { booking: Booking }) {
             variant="danger"
             onClick={handleCancel}
             disabled={withinCancelWindow || cancelBooking.isPending}
-            title={
-              withinCancelWindow
-                ? 'Cancellations must be made at least 2 hours in advance'
-                : undefined
-            }
+            title={withinCancelWindow ? t('bookings.cancelTooltip') : undefined}
           >
-            {cancelBooking.isPending ? 'Cancelling…' : 'Cancel'}
+            {cancelBooking.isPending ? t('bookings.cancelling') : t('bookings.cancel')}
           </Button>
         </div>
       )}

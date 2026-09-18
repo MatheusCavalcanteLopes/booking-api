@@ -1,7 +1,9 @@
 import { useState, type FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { useLocale } from '../../i18n/LocaleContext';
 import { formatApiError } from '../../lib/formatApiError';
+import { translateErrorMessage } from '../../i18n/errorMessages';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 import { ErrorBanner } from '../ui/ErrorBanner';
@@ -9,6 +11,7 @@ import { ErrorBanner } from '../ui/ErrorBanner';
 export function RegisterForm() {
   const { register } = useAuth();
   const navigate = useNavigate();
+  const { t } = useLocale();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -31,9 +34,13 @@ export function RegisterForm() {
     } catch (error) {
       const formatted = formatApiError(error);
       if (formatted.kind === 'validation') {
-        setFieldErrors(formatted.fields);
+        const translated: Record<string, string> = {};
+        for (const [field, message] of Object.entries(formatted.fields)) {
+          translated[field] = translateErrorMessage(message, t);
+        }
+        setFieldErrors(translated);
       } else {
-        setFormError(formatted.message);
+        setFormError(translateErrorMessage(formatted.message, t));
       }
     } finally {
       setIsSubmitting(false);
@@ -44,14 +51,14 @@ export function RegisterForm() {
     <form onSubmit={handleSubmit} className="space-y-4">
       {formError && <ErrorBanner message={formError} />}
       <Input
-        label="Name"
+        label={t('auth.register.name')}
         value={name}
         onChange={(e) => setName(e.target.value)}
         error={fieldErrors.name}
         required
       />
       <Input
-        label="Email"
+        label={t('auth.register.email')}
         type="email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
@@ -59,18 +66,16 @@ export function RegisterForm() {
         required
       />
       <Input
-        label="Password"
+        label={t('auth.register.password')}
         type="password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         error={fieldErrors.password}
         required
       />
-      <p className="text-xs text-slate-500">
-        At least 8 characters, with one uppercase letter and one number.
-      </p>
+      <p className="text-xs text-slate-500">{t('auth.register.passwordHint')}</p>
       <Button type="submit" disabled={isSubmitting} className="w-full">
-        {isSubmitting ? 'Creating account…' : 'Create account'}
+        {isSubmitting ? t('auth.register.creatingAccount') : t('auth.register.createAccount')}
       </Button>
     </form>
   );

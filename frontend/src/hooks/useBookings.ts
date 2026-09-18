@@ -27,3 +27,11 @@ export function useCancelBooking() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: myBookingsKey }),
   });
 }
+
+export function useClearTrash() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: () => bookingsApi.clearTrash(),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: myBookingsKey }),
+  });
+}
