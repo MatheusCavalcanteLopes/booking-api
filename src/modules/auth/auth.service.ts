@@ -36,6 +36,7 @@ export const authService = {
       email: user.email,
       role: user.role,
       locale: user.locale,
+      previewRole: user.previewRole,
     };
   },
 
@@ -66,6 +67,7 @@ export const authService = {
         email: user.email,
         role: user.role,
         locale: user.locale,
+        previewRole: user.previewRole,
       },
     };
   },

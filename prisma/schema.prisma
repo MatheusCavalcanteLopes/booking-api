@@ -35,6 +35,11 @@ model User {
   email        String    @unique
   passwordHash String
   role         Role      @default(USER)
+  // Non-null only while "Try as Admin" has this account's role temporarily
+  // elevated to ADMIN — remembers what to restore on exit, and is what
+  // proves *this* mechanism did the elevation (never touched for a real
+  // ADMIN/MANAGER account, so it can't be used to silently demote one).
+  previewRole  Role?
   locale       String    @default("pt-BR") // "pt-BR" | "en" — UI language, set via PATCH /users/me
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt

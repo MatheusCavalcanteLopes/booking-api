@@ -5,3 +5,9 @@ export const updateLocaleSchema = z.object({
 });
 
 export type UpdateLocaleInput = z.infer<typeof updateLocaleSchema>;
+
+export const setAdminPreviewSchema = z.object({
+  enabled: z.boolean(),
+});
+
+export type SetAdminPreviewInput = z.infer<typeof setAdminPreviewSchema>;
