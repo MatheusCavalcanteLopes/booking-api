@@ -84,17 +84,31 @@ export function NavBar() {
           </Button>
         </div>
       </nav>
-      {isPreviewingAdmin && (
-        <div className="border-t border-amber-200 bg-amber-50 px-4 py-1.5 text-center text-xs font-medium text-amber-800">
-          {t('nav.previewBanner')}{' '}
-          <button
-            type="button"
-            onClick={handleToggleAdminPreview}
-            disabled={isToggling}
-            className="underline disabled:opacity-60"
-          >
-            {t('nav.turnOff')}
-          </button>
+      {canToggleAdminPreview && (
+        // No reserved space when off — that left a permanent, empty-looking
+        // gap under the header for anyone who could toggle preview, which
+        // read as a layout bug of its own. Instead, animate the row's own
+        // height from 0 to its natural size (the "0fr"/"1fr" grid-rows
+        // trick, since height can't transition to/from "auto" directly),
+        // so the push-down happens, just smoothly instead of snapping.
+        <div
+          className={`grid overflow-hidden transition-all duration-300 ease-in-out ${
+            isPreviewingAdmin ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
+          }`}
+        >
+          <div className="min-h-0">
+            <div className="flex items-center justify-center gap-1 border-t border-amber-200 bg-amber-50 px-4 py-1.5 text-center text-xs font-medium text-amber-800">
+              <span>{t('nav.previewBanner')}</span>
+              <button
+                type="button"
+                onClick={handleToggleAdminPreview}
+                disabled={isToggling}
+                className="underline disabled:opacity-60"
+              >
+                {t('nav.turnOff')}
+              </button>
+            </div>
+          </div>
         </div>
       )}
       {toggleError && (
