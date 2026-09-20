@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import { useCreateResource, useUpdateResource } from '../../hooks/useResources';
 import { useLocale } from '../../i18n/LocaleContext';
-import { translateErrorMessage } from '../../i18n/errorMessages';
+import { translateErrorMessage, translateFieldMessages } from '../../i18n/errorMessages';
 import { formatApiError } from '../../lib/formatApiError';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
@@ -50,8 +50,8 @@ export function ResourceFormDialog({ resource, onClose }: ResourceFormDialogProp
       const formatted = formatApiError(error);
       if (formatted.kind === 'validation') {
         const translated: Record<string, string> = {};
-        for (const [field, message] of Object.entries(formatted.fields)) {
-          translated[field] = translateErrorMessage(message, t);
+        for (const [field, messages] of Object.entries(formatted.fields)) {
+          translated[field] = translateFieldMessages(messages, t);
         }
         setFieldErrors(translated);
       } else {

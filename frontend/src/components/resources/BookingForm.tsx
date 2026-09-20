@@ -2,7 +2,7 @@ import { useState, type FormEvent } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useCreateBooking } from '../../hooks/useBookings';
 import { useLocale } from '../../i18n/LocaleContext';
-import { translateErrorMessage } from '../../i18n/errorMessages';
+import { translateErrorMessage, translateFieldMessages } from '../../i18n/errorMessages';
 import { formatApiError } from '../../lib/formatApiError';
 import { localInputToIso } from '../../lib/datetime';
 import { Button } from '../ui/Button';
@@ -75,8 +75,8 @@ export function BookingForm({ resource, onClose }: BookingFormProps) {
       const formatted = formatApiError(error);
       if (formatted.kind === 'validation') {
         const translated: Record<string, string> = {};
-        for (const [field, message] of Object.entries(formatted.fields)) {
-          translated[field] = translateErrorMessage(message, t);
+        for (const [field, messages] of Object.entries(formatted.fields)) {
+          translated[field] = translateFieldMessages(messages, t);
         }
         setFieldErrors(translated);
       } else if (formatted.kind === 'conflict') {

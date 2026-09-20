@@ -20,6 +20,12 @@ const KNOWN_MESSAGES: Record<string, string> = {
   'Booking not found': 'errors.bookingNotFound',
   'startTime must be in the future': 'errors.validation.startTimeFuture',
   'endTime must be after startTime': 'errors.validation.endTimeAfterStart',
+  'Name must have at least 2 characters': 'errors.validation.nameTooShort',
+  'Invalid email address': 'errors.validation.invalidEmail',
+  'Password is required': 'errors.validation.passwordRequired',
+  'Password must have at least 8 characters': 'errors.validation.passwordTooShort',
+  'Password must contain at least one uppercase letter': 'errors.validation.passwordNeedsUppercase',
+  'Password must contain at least one number': 'errors.validation.passwordNeedsNumber',
 };
 
 export function translateErrorMessage(
@@ -28,4 +34,15 @@ export function translateErrorMessage(
 ): string {
   const key = KNOWN_MESSAGES[message];
   return key ? t(key) : message;
+}
+
+// A single field (e.g. password) can carry several simultaneous rule
+// violations — translate each individually rather than the joined blob,
+// or a combined string that doesn't exactly match any known message just
+// falls back to raw English in its entirety.
+export function translateFieldMessages(
+  messages: string[],
+  t: (key: string) => string
+): string {
+  return messages.map((message) => translateErrorMessage(message, t)).join(' ');
 }

@@ -114,6 +114,12 @@ export const en = {
     validation: {
       startTimeFuture: 'startTime must be in the future',
       endTimeAfterStart: 'endTime must be after startTime',
+      nameTooShort: 'Name must have at least 2 characters',
+      invalidEmail: 'Please enter a valid email address',
+      passwordRequired: 'Password is required',
+      passwordTooShort: 'At least 8 characters.',
+      passwordNeedsUppercase: 'At least one uppercase letter.',
+      passwordNeedsNumber: 'At least one number.',
     },
   },
 };

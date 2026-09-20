@@ -114,6 +114,12 @@ export const ptBR: TranslationDictionary = {
     validation: {
       startTimeFuture: 'O horário de início deve estar no futuro',
       endTimeAfterStart: 'O horário de fim deve ser depois do início',
+      nameTooShort: 'O nome deve ter pelo menos 2 caracteres',
+      invalidEmail: 'Digite um email válido',
+      passwordRequired: 'A senha é obrigatória',
+      passwordTooShort: 'Pelo menos 8 caracteres.',
+      passwordNeedsUppercase: 'Pelo menos uma letra maiúscula.',
+      passwordNeedsNumber: 'Pelo menos um número.',
     },
   },
 };

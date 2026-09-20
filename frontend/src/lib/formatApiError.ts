@@ -2,7 +2,7 @@ import { AxiosError } from 'axios';
 import type { ApiErrorBody } from '../types/api';
 
 export type FormattedApiError =
-  | { kind: 'validation'; fields: Record<string, string>; message: string }
+  | { kind: 'validation'; fields: Record<string, string[]>; message: string }
   | { kind: 'conflict'; message: string }
   | { kind: 'generic'; message: string };
 
@@ -23,9 +23,14 @@ export function formatApiError(error: unknown): FormattedApiError {
   const message = body?.message ?? FALLBACK_MESSAGE;
 
   if (error.response.status === 422 && body?.issues?.length) {
-    const fields: Record<string, string> = {};
+    // A single field (e.g. password) can fail several rules at once — Zod
+    // reports each as its own issue with the same path. Keep every message
+    // for that field, or all but the last violation silently disappear and
+    // the user just sees the same field rejected again with a different,
+    // seemingly unrelated reason each retry.
+    const fields: Record<string, string[]> = {};
     for (const issue of body.issues) {
-      fields[issue.path] = issue.message;
+      (fields[issue.path] ??= []).push(issue.message);
     }
     return { kind: 'validation', fields, message };
   }
