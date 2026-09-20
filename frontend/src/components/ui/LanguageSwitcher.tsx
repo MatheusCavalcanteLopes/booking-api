@@ -2,8 +2,8 @@ import { useLocale } from '../../i18n/LocaleContext';
 import type { Locale } from '../../types/api';
 
 const OPTIONS: { value: Locale; label: string }[] = [
-  { value: 'pt-BR', label: 'PT' },
   { value: 'en', label: 'EN' },
+  { value: 'pt-BR', label: 'PT' },
 ];
 
 export function LanguageSwitcher() {
