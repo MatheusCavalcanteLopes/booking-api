@@ -73,7 +73,12 @@ export function NavBar() {
             </label>
           )}
           <LanguageSwitcher />
-          <span className="text-sm text-slate-500">{user?.name}</span>
+          <span
+            className="inline-block w-[10ch] truncate text-sm text-slate-500"
+            title={user?.name}
+          >
+            {user?.name}
+          </span>
           <Button variant="secondary" onClick={logout}>
             {t('nav.logout')}
           </Button>
