@@ -225,6 +225,11 @@ from `main`:
   a separate Vercel project (Root Directory: `frontend/`), built as a static
   Vite site with `VITE_API_URL` pointed at the API above.
 
+**Reliability note**: the Supabase free tier auto-pauses a database after
+~7 days of inactivity, which would 500 every DB-touching request for
+anyone visiting the live demo. `.github/workflows/keep-alive.yml` pings
+the API on a schedule to keep it under that threshold.
+
 To deploy your own copy elsewhere, the same split applies generally:
 
 - **API + PostgreSQL**: deploy the root `Dockerfile` (or `docker-compose.yml`
