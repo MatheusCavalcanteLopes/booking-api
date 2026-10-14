@@ -1,5 +1,8 @@
 # Booking API
 
+**[Live demo →](https://booking-api-xqt4.vercel.app)** · API: `https://booking-api-neon.vercel.app`
+Demo login: `admin@example.com` / `AdminPass123` (seeded automatically, see [Deployment](#deployment))
+
 A REST API for booking shared resources (rooms, equipment) with role-based
 access control and automatic scheduling-conflict detection.
 
@@ -209,15 +212,27 @@ CI runs both suites, in parallel jobs, on every push (see
 
 ## Deployment
 
-The API/DB and the frontend are independently deployable units — there's
-no live deployment for this project yet, but here's the intended path:
+Live now, as two independently deployed units on Vercel, both auto-deploying
+from `main`:
+
+- **API + PostgreSQL**: [`booking-api-neon.vercel.app`](https://booking-api-neon.vercel.app) —
+  the Express app wrapped as a Vercel serverless function (`api/index.ts`),
+  against a Supabase-hosted Postgres. `vercel.json`'s build step runs
+  `prisma generate && prisma migrate deploy && prisma db seed` on every
+  deploy, so the schema and demo data (an `ADMIN` account plus a few sample
+  resources) stay in sync automatically — see `prisma/seed.ts`.
+- **Frontend**: [`booking-api-xqt4.vercel.app`](https://booking-api-xqt4.vercel.app) —
+  a separate Vercel project (Root Directory: `frontend/`), built as a static
+  Vite site with `VITE_API_URL` pointed at the API above.
+
+To deploy your own copy elsewhere, the same split applies generally:
 
 - **API + PostgreSQL**: deploy the root `Dockerfile` (or `docker-compose.yml`
   for API+DB together) to any Docker-friendly host — e.g. Render, Railway,
-  Fly.io, or a VPS. Set `DATABASE_URL`, `JWT_ACCESS_SECRET`, and
+  Fly.io, or a VPS — or follow the Vercel setup above against any hosted
+  Postgres. Set `DATABASE_URL`, `DIRECT_URL`, `JWT_ACCESS_SECRET`, and
   `JWT_REFRESH_SECRET` as real secrets (not the dev defaults in
-  `docker-compose.yml`), then run `npx prisma migrate deploy` once against
-  the production database.
+  `docker-compose.yml`).
 - **Frontend**: either build it as a static site (`cd frontend && npm run
   build`, deploy the `dist/` folder to Netlify/Vercel/S3+CloudFront) with
   `VITE_API_URL` pointed at the deployed API, or deploy `frontend/Dockerfile`
