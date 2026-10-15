@@ -8,9 +8,26 @@ const prisma = new PrismaClient();
 // `npx prisma db seed`) a working demo out of the box — an ADMIN account
 // to explore the admin UI, and a couple of resources so the app isn't
 // an empty screen on first load. Idempotent: safe to run again.
+//
+// This must never run unattended against production — it creates (or
+// resets) an admin account with a password that's either a fixed,
+// publicly documented default or whatever SEED_ADMIN_PASSWORD holds in
+// that environment. NODE_ENV=production requires an explicit opt-in
+// (ALLOW_PRODUCTION_SEED=true) so that can't happen by accident.
 async function main() {
+  if (process.env.NODE_ENV === 'production' && process.env.ALLOW_PRODUCTION_SEED !== 'true') {
+    console.error(
+      'Refusing to seed: NODE_ENV=production without ALLOW_PRODUCTION_SEED=true. ' +
+        'This script creates/resets an admin account and is meant for local development only.'
+    );
+    process.exit(1);
+  }
+
   const adminEmail = 'admin@example.com';
-  const adminPasswordHash = await hashPassword('AdminPass123');
+  // Dev-only fallback: only reached when SEED_ADMIN_PASSWORD isn't set,
+  // which — given the guard above — means a local/non-production run.
+  const adminPassword = process.env.SEED_ADMIN_PASSWORD ?? 'AdminPass123';
+  const adminPasswordHash = await hashPassword(adminPassword);
 
   const admin = await prisma.user.upsert({
     where: { email: adminEmail },
@@ -22,7 +39,7 @@ async function main() {
       role: 'ADMIN',
     },
   });
-  console.log(`Seeded admin user: ${admin.email} (password: AdminPass123)`);
+  console.log(`Seeded admin user: ${admin.email}`);
 
   const resourceCount = await prisma.resource.count();
   if (resourceCount === 0) {
