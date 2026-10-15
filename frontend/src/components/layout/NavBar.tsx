@@ -79,12 +79,18 @@ export function NavBar() {
           )}
           <ThemeToggle />
           <LanguageSwitcher />
-          <span
-            className="inline-block w-[10ch] truncate text-sm text-slate-500 dark:text-slate-400"
-            title={user?.name}
-          >
-            {user?.name}
-          </span>
+          {/* Centering lives on this outer box, not the text itself — a
+              `text-align: center` on a truncating span clips overflowing
+              text from both ends instead of just the tail. A short name
+              centers because the inner span is narrower than the box; a
+              long one is capped to the box's full width by `max-w-full`,
+              leaving centering nothing to do, and truncates left-to-right
+              with a trailing ellipsis as before. */}
+          <div className="flex w-[10ch] items-center justify-center" title={user?.name}>
+            <span className="max-w-full truncate text-sm text-slate-500 dark:text-slate-400">
+              {user?.name}
+            </span>
+          </div>
           <Button variant="secondary" onClick={logout}>
             {t('nav.logout')}
           </Button>
