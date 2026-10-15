@@ -1,7 +1,9 @@
 # Booking API
 
 **[Live demo →](https://booking-api-xqt4.vercel.app)** · API: `https://booking-api-neon.vercel.app`
-Demo login: `admin@example.com` / `AdminPass123` (seeded automatically, see [Deployment](#deployment))
+Register your own account to try it — the live deployment does not seed a
+public admin login (see [Deployment](#deployment)); that's a local-only
+convenience, documented under [Getting started](#getting-started).
 
 A REST API for booking shared resources (rooms, equipment) with role-based
 access control and automatic scheduling-conflict detection.
@@ -133,8 +135,11 @@ email:    admin@example.com
 password: AdminPass123
 ```
 
-(Demo-only credentials, from `prisma/seed.ts` — never seed a fixed password
-like this in a real deployment.)
+**These credentials are a local-development convenience only.** The seed
+script refuses to run at all against a `NODE_ENV=production` environment
+unless `ALLOW_PRODUCTION_SEED=true` is explicitly set (see
+[Deployment](#deployment)), and the password itself comes from
+`SEED_ADMIN_PASSWORD` if you set one — see `.env.example`.
 
 ### Locally
 
@@ -143,7 +148,7 @@ Backend:
 npm install
 cp .env.example .env      # then point DATABASE_URL at your own Postgres
 npx prisma migrate dev
-npm run prisma:seed       # optional: creates the demo admin + sample resources
+npm run prisma:seed       # optional, local only: demo admin + sample resources
 npm run dev
 ```
 
@@ -217,10 +222,15 @@ from `main`:
 
 - **API + PostgreSQL**: [`booking-api-neon.vercel.app`](https://booking-api-neon.vercel.app) —
   the Express app wrapped as a Vercel serverless function (`api/index.ts`),
-  against a Supabase-hosted Postgres. `vercel.json`'s build step runs
-  `prisma generate && prisma migrate deploy && prisma db seed` on every
-  deploy, so the schema and demo data (an `ADMIN` account plus a few sample
-  resources) stay in sync automatically — see `prisma/seed.ts`.
+  against a Supabase-hosted Postgres. `vercel.json`'s build step only runs
+  `prisma generate && prisma migrate deploy` — it deliberately does **not**
+  run `prisma db seed`. Seeding creates an `ADMIN` account, and running it
+  unattended on every deploy meant every production build minted (or
+  silently kept alive) an admin login with a fixed, publicly documented
+  password. `prisma/seed.ts` now refuses to run at all against
+  `NODE_ENV=production` unless `ALLOW_PRODUCTION_SEED=true` is explicitly
+  set alongside a real `SEED_ADMIN_PASSWORD` — seeding production, if you
+  ever need to, is a deliberate one-off, not something the build does for you.
 - **Frontend**: [`booking-api-xqt4.vercel.app`](https://booking-api-xqt4.vercel.app) —
   a separate Vercel project (Root Directory: `frontend/`), built as a static
   Vite site with `VITE_API_URL` pointed at the API above.
