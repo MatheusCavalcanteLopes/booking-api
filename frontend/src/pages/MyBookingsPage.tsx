@@ -10,7 +10,9 @@ type Tab = 'active' | 'trash';
 
 const tabClass = (isActive: boolean) =>
   `border-b-2 px-3 py-2 text-sm font-medium ${
-    isActive ? 'border-slate-900 text-slate-900' : 'border-transparent text-slate-500 hover:text-slate-700'
+    isActive
+      ? 'border-slate-900 text-slate-900 dark:border-slate-100 dark:text-slate-100'
+      : 'border-transparent text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200'
   }`;
 
 export function MyBookingsPage() {
@@ -35,12 +37,14 @@ export function MyBookingsPage() {
 
   return (
     <div>
-      <h1 className="mb-4 text-xl font-semibold text-slate-900">{t('bookings.heading')}</h1>
+      <h1 className="mb-4 text-xl font-semibold text-slate-900 dark:text-slate-100">
+        {t('bookings.heading')}
+      </h1>
       {isLoading && <Spinner />}
       {isError && <ErrorBanner message={t('bookings.loadError')} />}
       {bookings && (
         <>
-          <div className="mb-4 flex items-center justify-between border-b border-slate-200">
+          <div className="mb-4 flex items-center justify-between border-b border-slate-200 dark:border-slate-700">
             <div className="flex gap-2">
               <button type="button" className={tabClass(tab === 'active')} onClick={() => setTab('active')}>
                 {t('bookings.tabActive')} ({active.length})

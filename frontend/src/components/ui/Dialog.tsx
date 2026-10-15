@@ -27,7 +27,7 @@ export function Dialog({ open, onClose, children }: DialogProps) {
         role="dialog"
         aria-modal="true"
         onClick={(event) => event.stopPropagation()}
-        className="w-full max-w-sm rounded-lg bg-white p-6 shadow-xl"
+        className="w-full max-w-sm rounded-lg bg-white p-6 shadow-xl dark:bg-slate-900"
       >
         {children}
       </div>

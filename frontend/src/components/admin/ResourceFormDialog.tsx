@@ -61,8 +61,8 @@ export function ResourceFormDialog({ resource, onClose }: ResourceFormDialogProp
   }
 
   return (
-    <div className="rounded-lg border border-slate-200 bg-white p-4">
-      <h3 className="mb-3 font-semibold text-slate-900">
+    <div className="rounded-lg border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900">
+      <h3 className="mb-3 font-semibold text-slate-900 dark:text-slate-100">
         {isEditing
           ? t('admin.resourceForm.editHeading', { name: resource?.name ?? '' })
           : t('admin.resourceForm.newHeading')}

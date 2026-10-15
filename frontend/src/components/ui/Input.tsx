@@ -34,16 +34,16 @@ export function Input({ label, error, id, className = '', type, ...props }: Inpu
 
   return (
     <div>
-      <label htmlFor={inputId} className="mb-1 block text-sm font-medium text-slate-700">
+      <label htmlFor={inputId} className="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">
         {label}
       </label>
       <div className="relative">
         <input
           id={inputId}
           type={resolvedType}
-          className={`w-full rounded-md border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-400 ${
+          className={`w-full rounded-md border bg-white px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-400 dark:bg-slate-800 dark:text-slate-100 dark:focus:ring-slate-500 ${
             isPassword ? 'pr-10' : ''
-          } ${error ? 'border-red-400' : 'border-slate-300'} ${className}`}
+          } ${error ? 'border-red-400 dark:border-red-500' : 'border-slate-300 dark:border-slate-600'} ${className}`}
           aria-invalid={Boolean(error)}
           {...props}
         />
@@ -55,13 +55,13 @@ export function Input({ label, error, id, className = '', type, ...props }: Inpu
             // the form — this is a convenience toggle, not a form field.
             tabIndex={-1}
             aria-label={showPassword ? 'Hide password' : 'Show password'}
-            className="absolute inset-y-0 right-0 flex items-center px-3 text-slate-400 hover:text-slate-600"
+            className="absolute inset-y-0 right-0 flex items-center px-3 text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300"
           >
             {showPassword ? <EyeOffIcon /> : <EyeIcon />}
           </button>
         )}
       </div>
-      {error && <p className="mt-1 text-sm text-red-600">{error}</p>}
+      {error && <p className="mt-1 text-sm text-red-600 dark:text-red-400">{error}</p>}
     </div>
   );
 }

@@ -73,7 +73,7 @@ export function RegisterForm() {
         error={fieldErrors.password}
         required
       />
-      <p className="text-xs text-slate-500">{t('auth.register.passwordHint')}</p>
+      <p className="text-xs text-slate-500 dark:text-slate-400">{t('auth.register.passwordHint')}</p>
       <Button type="submit" disabled={isSubmitting} className="w-full">
         {isSubmitting ? t('auth.register.creatingAccount') : t('auth.register.createAccount')}
       </Button>

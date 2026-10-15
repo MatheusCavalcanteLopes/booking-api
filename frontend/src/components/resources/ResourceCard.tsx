@@ -22,7 +22,7 @@ export function ResourceCard({
   const { t } = useLocale();
 
   return (
-    <div className="flex items-start justify-between rounded-lg border border-slate-200 bg-white p-4">
+    <div className="flex items-start justify-between rounded-lg border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900">
       <div className="flex items-start gap-3">
         {canManage && (
           <input
@@ -30,15 +30,15 @@ export function ResourceCard({
             checked={isChecked}
             onChange={onToggleChecked}
             aria-label={resource.name}
-            className="mt-1 h-4 w-4 rounded border-slate-300"
+            className="mt-1 h-4 w-4 rounded border-slate-300 accent-slate-900 dark:border-slate-600 dark:accent-slate-100"
           />
         )}
         <div>
-          <h3 className="font-medium text-slate-900">{resource.name}</h3>
+          <h3 className="font-medium text-slate-900 dark:text-slate-100">{resource.name}</h3>
           {resource.description && (
-            <p className="mt-1 text-sm text-slate-500">{resource.description}</p>
+            <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{resource.description}</p>
           )}
-          <p className="mt-2 text-xs text-slate-400">
+          <p className="mt-2 text-xs text-slate-400 dark:text-slate-500">
             {t('resources.capacity')} {resource.capacity}
             {resource.location ? ` · ${resource.location}` : ''}
           </p>

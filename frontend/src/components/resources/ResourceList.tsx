@@ -16,7 +16,7 @@ export function ResourceList({ resources, canManage, selectedIds, onToggleChecke
   const { t } = useLocale();
 
   if (resources.length === 0) {
-    return <p className="text-sm text-slate-500">{t('resources.empty')}</p>;
+    return <p className="text-sm text-slate-500 dark:text-slate-400">{t('resources.empty')}</p>;
   }
 
   return (

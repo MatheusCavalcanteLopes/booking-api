@@ -3,6 +3,10 @@
 // identical — LocaleContext falls back to the English value for any
 // key missing in the active dictionary.
 export const en = {
+  theme: {
+    toggleToLight: 'Switch to light theme',
+    toggleToDark: 'Switch to dark theme',
+  },
   nav: {
     resources: 'Resources',
     myBookings: 'My bookings',

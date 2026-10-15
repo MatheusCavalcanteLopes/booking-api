@@ -7,9 +7,14 @@ import { translateErrorMessage } from '../../i18n/errorMessages';
 import { Button } from '../ui/Button';
 import { LanguageSwitcher } from '../ui/LanguageSwitcher';
 import { LoadingOverlay } from '../ui/LoadingOverlay';
+import { ThemeToggle } from '../ui/ThemeToggle';
 
 const linkClass = ({ isActive }: { isActive: boolean }) =>
-  `text-sm font-medium ${isActive ? 'text-slate-900' : 'text-slate-500 hover:text-slate-700'}`;
+  `text-sm font-medium ${
+    isActive
+      ? 'text-slate-900 dark:text-slate-100'
+      : 'text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200'
+  }`;
 
 export function NavBar() {
   const { user, logout, isPreviewingAdmin, enterAdminPreview, exitAdminPreview } = useAuth();
@@ -35,12 +40,12 @@ export function NavBar() {
   }
 
   return (
-    <header className="border-b border-slate-200 bg-white">
+    <header className="border-b border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900">
       {isToggling && <LoadingOverlay />}
       <nav className="mx-auto flex max-w-4xl items-center justify-between px-4 py-3">
         <div className="flex items-center gap-6">
-          <span className="flex items-center gap-2 font-semibold text-slate-900">
-            <img src="/logo.svg" alt="" className="h-6 w-6" />
+          <span className="flex items-center gap-2 font-semibold text-slate-900 dark:text-slate-100">
+            <img src="/logo.svg" alt="" className="h-6 w-6 dark:invert" />
             Booking API
           </span>
           <NavLink to="/resources" className={linkClass}>
@@ -52,7 +57,7 @@ export function NavBar() {
         </div>
         <div className="flex items-center gap-4">
           {canToggleAdminPreview && (
-            <label className="flex items-center gap-2 text-sm text-slate-600">
+            <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300">
               <span>{t('nav.tryAsAdmin')}</span>
               <button
                 type="button"
@@ -61,20 +66,21 @@ export function NavBar() {
                 onClick={handleToggleAdminPreview}
                 disabled={isToggling}
                 className={`relative h-5 w-9 shrink-0 rounded-full transition-colors disabled:opacity-60 ${
-                  isPreviewingAdmin ? 'bg-slate-900' : 'bg-slate-300'
+                  isPreviewingAdmin ? 'bg-slate-900 dark:bg-slate-100' : 'bg-slate-300 dark:bg-slate-700'
                 }`}
               >
                 <span
-                  className={`absolute top-0.5 left-0.5 h-4 w-4 rounded-full bg-white transition-transform ${
+                  className={`absolute top-0.5 left-0.5 h-4 w-4 rounded-full bg-white transition-transform dark:bg-slate-900 ${
                     isPreviewingAdmin ? 'translate-x-4' : 'translate-x-0'
                   }`}
                 />
               </button>
             </label>
           )}
+          <ThemeToggle />
           <LanguageSwitcher />
           <span
-            className="inline-block w-[10ch] truncate text-sm text-slate-500"
+            className="inline-block w-[10ch] truncate text-sm text-slate-500 dark:text-slate-400"
             title={user?.name}
           >
             {user?.name}
@@ -97,7 +103,7 @@ export function NavBar() {
           }`}
         >
           <div className="min-h-0">
-            <div className="flex items-center justify-center gap-1 border-t border-amber-200 bg-amber-50 px-4 py-1.5 text-center text-xs font-medium text-amber-800">
+            <div className="flex items-center justify-center gap-1 border-t border-amber-200 bg-amber-50 px-4 py-1.5 text-center text-xs font-medium text-amber-800 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-300">
               <span>{t('nav.previewBanner')}</span>
               <button
                 type="button"
@@ -112,7 +118,7 @@ export function NavBar() {
         </div>
       )}
       {toggleError && (
-        <div className="border-t border-red-200 bg-red-50 px-4 py-1.5 text-center text-xs text-red-800">
+        <div className="border-t border-red-200 bg-red-50 px-4 py-1.5 text-center text-xs text-red-800 dark:border-red-800 dark:bg-red-950 dark:text-red-300">
           {toggleError}
         </div>
       )}

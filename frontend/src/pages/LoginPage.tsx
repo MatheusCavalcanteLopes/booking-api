@@ -4,6 +4,7 @@ import { LoginForm } from '../components/auth/LoginForm';
 import { Dialog } from '../components/ui/Dialog';
 import { Button } from '../components/ui/Button';
 import { LanguageSwitcher } from '../components/ui/LanguageSwitcher';
+import { ThemeToggle } from '../components/ui/ThemeToggle';
 import { useLocale } from '../i18n/LocaleContext';
 
 export function LoginPage() {
@@ -16,27 +17,30 @@ export function LoginPage() {
   );
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center bg-slate-50 px-4">
-      <div className="absolute right-4 top-4">
+    <div className="relative flex min-h-screen items-center justify-center bg-slate-50 px-4 dark:bg-slate-950">
+      <div className="absolute right-4 top-4 flex items-center gap-2">
+        <ThemeToggle />
         <LanguageSwitcher />
       </div>
       <div className="w-full max-w-sm space-y-6">
         <div className="text-center">
-          <h1 className="text-2xl font-semibold text-slate-900">{t('auth.login.title')}</h1>
-          <p className="mt-1 text-sm text-slate-500">{t('auth.login.subtitle')}</p>
+          <h1 className="text-2xl font-semibold text-slate-900 dark:text-slate-100">
+            {t('auth.login.title')}
+          </h1>
+          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{t('auth.login.subtitle')}</p>
         </div>
         {justRegistered && (
-          <p className="rounded-md border border-green-300 bg-green-50 px-3 py-2 text-sm text-green-800">
+          <p className="rounded-md border border-green-300 bg-green-50 px-3 py-2 text-sm text-green-800 dark:border-green-800 dark:bg-green-950 dark:text-green-300">
             {t('auth.login.justRegistered')}
           </p>
         )}
         <LoginForm />
-        <p className="text-center text-sm text-slate-500">
+        <p className="text-center text-sm text-slate-500 dark:text-slate-400">
           {t('auth.login.noAccountYet')}{' '}
           <button
             type="button"
             onClick={() => setShowRegisterWarning(true)}
-            className="font-medium text-slate-900 underline"
+            className="font-medium text-slate-900 underline dark:text-slate-100"
           >
             {t('auth.login.registerLink')}
           </button>
@@ -44,8 +48,10 @@ export function LoginPage() {
       </div>
 
       <Dialog open={showRegisterWarning} onClose={() => setShowRegisterWarning(false)}>
-        <h2 className="text-lg font-semibold text-slate-900">{t('auth.registerWarning.title')}</h2>
-        <p className="mt-2 text-sm text-slate-600">{t('auth.registerWarning.body')}</p>
+        <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
+          {t('auth.registerWarning.title')}
+        </h2>
+        <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">{t('auth.registerWarning.body')}</p>
         <Button className="mt-4 w-full" onClick={() => navigate('/register')}>
           {t('auth.registerWarning.continue')}
         </Button>

@@ -8,9 +8,9 @@ import { Button } from '../ui/Button';
 import type { Booking } from '../../types/api';
 
 const statusClasses: Record<Booking['status'], string> = {
-  CONFIRMED: 'bg-green-50 text-green-700 border-green-300',
-  CANCELLED: 'bg-slate-100 text-slate-500 border-slate-300',
-  PENDING: 'bg-amber-50 text-amber-700 border-amber-300',
+  CONFIRMED: 'bg-green-50 text-green-700 border-green-300 dark:bg-green-950 dark:text-green-300 dark:border-green-800',
+  CANCELLED: 'bg-slate-100 text-slate-500 border-slate-300 dark:bg-slate-800 dark:text-slate-400 dark:border-slate-600',
+  PENDING: 'bg-amber-50 text-amber-700 border-amber-300 dark:bg-amber-950 dark:text-amber-300 dark:border-amber-800',
 };
 
 export function BookingRow({ booking }: { booking: Booking }) {
@@ -34,14 +34,16 @@ export function BookingRow({ booking }: { booking: Booking }) {
   }
 
   return (
-    <div className="rounded-lg border border-slate-200 bg-white p-4">
+    <div className="rounded-lg border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900">
       <div className="flex items-start justify-between">
         <div>
-          <h3 className="font-medium text-slate-900">{booking.resource.name}</h3>
-          <p className="mt-1 text-sm text-slate-500">
+          <h3 className="font-medium text-slate-900 dark:text-slate-100">{booking.resource.name}</h3>
+          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
             {formatDateTime(booking.startTime)} → {formatDateTime(booking.endTime)}
           </p>
-          {booking.notes && <p className="mt-1 text-sm text-slate-400">{booking.notes}</p>}
+          {booking.notes && (
+            <p className="mt-1 text-sm text-slate-400 dark:text-slate-500">{booking.notes}</p>
+          )}
         </div>
         <span
           className={`rounded-full border px-2 py-0.5 text-xs font-medium ${statusClasses[booking.status]}`}
@@ -61,7 +63,7 @@ export function BookingRow({ booking }: { booking: Booking }) {
           </Button>
         </div>
       )}
-      {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
+      {error && <p className="mt-2 text-sm text-red-600 dark:text-red-400">{error}</p>}
     </div>
   );
 }

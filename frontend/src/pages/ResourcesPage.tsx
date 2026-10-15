@@ -55,14 +55,16 @@ export function ResourcesPage() {
   return (
     <div>
       <div className="mb-4 flex items-center justify-between">
-        <h1 className="text-xl font-semibold text-slate-900">{t('resources.heading')}</h1>
+        <h1 className="text-xl font-semibold text-slate-900 dark:text-slate-100">
+          {t('resources.heading')}
+        </h1>
         {canManage && (
           <button
             type="button"
             onClick={() => setFormTarget((current) => (current === 'new' ? null : 'new'))}
             aria-label={t('resources.newResource')}
             title={t('resources.newResource')}
-            className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-900 text-white hover:bg-slate-700"
+            className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-900 text-white hover:bg-slate-700 dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-slate-300"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -86,9 +88,9 @@ export function ResourcesPage() {
       )}
 
       {canManage && selectedIds.size > 0 && (
-        <div className="mb-4 rounded-lg border border-slate-200 bg-slate-50 px-4 py-2">
+        <div className="mb-4 rounded-lg border border-slate-200 bg-slate-50 px-4 py-2 dark:border-slate-700 dark:bg-slate-900">
           <div className="flex items-center justify-between">
-            <span className="text-sm text-slate-600">
+            <span className="text-sm text-slate-600 dark:text-slate-300">
               {t('resources.selectedCount', { count: String(selectedIds.size) })}
             </span>
             <div className="flex gap-2">
@@ -113,7 +115,7 @@ export function ResourcesPage() {
               </Button>
             </div>
           </div>
-          {editError && <p className="mt-2 text-sm text-red-600">{editError}</p>}
+          {editError && <p className="mt-2 text-sm text-red-600 dark:text-red-400">{editError}</p>}
         </div>
       )}
 

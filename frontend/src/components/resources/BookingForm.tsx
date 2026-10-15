@@ -95,8 +95,8 @@ export function BookingForm({ resource, onClose }: BookingFormProps) {
   }
 
   return (
-    <div className="rounded-lg border border-slate-200 bg-white p-4">
-      <h3 className="mb-3 font-semibold text-slate-900">
+    <div className="rounded-lg border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900">
+      <h3 className="mb-3 font-semibold text-slate-900 dark:text-slate-100">
         {t('resources.bookingHeading', { name: resource.name })}
       </h3>
       <form onSubmit={handleSubmit} className="space-y-4">

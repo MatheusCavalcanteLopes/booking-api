@@ -8,7 +8,7 @@ interface BookingListProps {
 
 export function BookingList({ bookings, emptyMessage }: BookingListProps) {
   if (bookings.length === 0) {
-    return <p className="text-sm text-slate-500">{emptyMessage}</p>;
+    return <p className="text-sm text-slate-500 dark:text-slate-400">{emptyMessage}</p>;
   }
 
   return (

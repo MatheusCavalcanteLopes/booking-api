@@ -3,6 +3,10 @@ import type { TranslationDictionary } from './en';
 // Must stay structurally identical to en.ts (same keys) — LocaleContext
 // falls back to English for anything missing here.
 export const ptBR: TranslationDictionary = {
+  theme: {
+    toggleToLight: 'Mudar para tema claro',
+    toggleToDark: 'Mudar para tema escuro',
+  },
   nav: {
     resources: 'Recursos',
     myBookings: 'Minhas reservas',
