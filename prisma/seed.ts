@@ -29,9 +29,13 @@ async function main() {
   const adminPassword = process.env.SEED_ADMIN_PASSWORD ?? 'AdminPass123';
   const adminPasswordHash = await hashPassword(adminPassword);
 
+  // `update` deliberately sets the password hash too, not `{}` — running
+  // this again with a new SEED_ADMIN_PASSWORD is the supported way to
+  // rotate the admin password (e.g. after a leak), and a no-op update
+  // would silently keep the old hash, defeating that.
   const admin = await prisma.user.upsert({
     where: { email: adminEmail },
-    update: {},
+    update: { passwordHash: adminPasswordHash },
     create: {
       name: 'Demo Admin',
       email: adminEmail,
