@@ -23,6 +23,9 @@ export function NavBar() {
   const [toggleError, setToggleError] = useState<string | null>(null);
   const [isToggling, setIsToggling] = useState(false);
   const canToggleAdminPreview = isPreviewingAdmin || user?.role === 'USER';
+  // Genuinely ADMIN, not a self-service preview (role:'ADMIN' alone
+  // doesn't distinguish the two — see AuthContext#isPreviewingAdmin).
+  const isGenuineAdmin = user?.role === 'ADMIN' && !user?.previewRole;
 
   async function handleToggleAdminPreview() {
     setToggleError(null);
@@ -55,6 +58,11 @@ export function NavBar() {
           <NavLink to="/my-bookings" className={linkClass}>
             {t('nav.myBookings')}
           </NavLink>
+          {isGenuineAdmin && (
+            <NavLink to="/admin" className={linkClass}>
+              {t('nav.admin')}
+            </NavLink>
+          )}
         </div>
         <div className="flex items-center gap-4">
           {canToggleAdminPreview && (

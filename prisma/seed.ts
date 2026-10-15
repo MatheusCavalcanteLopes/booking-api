@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { hashPassword } from '../src/shared/utils/password';
+import { SAMPLE_RESOURCES } from '../src/shared/sampleResources';
 
 const prisma = new PrismaClient();
 
@@ -25,13 +26,7 @@ async function main() {
 
   const resourceCount = await prisma.resource.count();
   if (resourceCount === 0) {
-    await prisma.resource.createMany({
-      data: [
-        { name: 'Conference Room A', description: 'Projector, whiteboard, seats 8', capacity: 8, location: '2nd floor' },
-        { name: 'Conference Room B', description: 'Video conferencing setup', capacity: 4, location: '2nd floor' },
-        { name: 'Portable Projector', description: 'HDMI + wireless casting', capacity: 1, location: 'Equipment room' },
-      ],
-    });
+    await prisma.resource.createMany({ data: SAMPLE_RESOURCES });
     console.log('Seeded 3 sample resources');
   }
 }

@@ -89,6 +89,21 @@ export const en = {
       PENDING: 'PENDING',
     },
   },
+  adminPanel: {
+    heading: 'Admin',
+    description:
+      'Destructive actions for the shared demo data — affects every visitor, not just your account.',
+    clearResources: 'Clear Resources',
+    clearMyBookings: 'Clear My Bookings',
+    clearAll: 'Clear All',
+    confirmClearResources:
+      "This permanently deletes EVERY resource (and, with it, every booking from every account) and recreates the 3 sample resources. This can't be undone. Continue?",
+    confirmClearMyBookings:
+      "This permanently deletes all of your own bookings, active and trashed. This can't be undone. Continue?",
+    confirmClearAll:
+      "This does both of the above: wipes every resource and booking from every account, re-seeds the 3 sample resources, and clears your own bookings. This can't be undone. Continue?",
+    success: 'Done — data has been reset.',
+  },
   admin: {
     resourceForm: {
       newHeading: 'New resource',
@@ -113,6 +128,7 @@ export const en = {
     resourceUnavailable: 'Resource not found or not available',
     adminPreviewNotEligible: 'Admin preview is only available for regular user accounts',
     adminPreviewNotActive: 'You are not currently in admin preview',
+    genuineAdminRequired: 'This action requires a genuine admin account, not an admin preview',
     resourceNotFound: 'Resource not found',
     bookingNotFound: 'Booking not found',
     validation: {

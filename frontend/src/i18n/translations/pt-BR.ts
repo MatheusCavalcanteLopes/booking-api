@@ -89,6 +89,21 @@ export const ptBR: TranslationDictionary = {
       PENDING: 'PENDENTE',
     },
   },
+  adminPanel: {
+    heading: 'Admin',
+    description:
+      'Ações destrutivas para os dados compartilhados da demo — afetam todos os visitantes, não só sua conta.',
+    clearResources: 'Limpar Recursos',
+    clearMyBookings: 'Limpar Minhas Reservas',
+    clearAll: 'Limpar Tudo',
+    confirmClearResources:
+      'Isso vai apagar PERMANENTEMENTE todos os recursos (e, junto com eles, todas as reservas de todas as contas) e recriar as 3 salas de exemplo. Não pode ser desfeito. Continuar?',
+    confirmClearMyBookings:
+      'Isso vai apagar permanentemente todas as suas próprias reservas, ativas e na lixeira. Não pode ser desfeito. Continuar?',
+    confirmClearAll:
+      'Isso faz as duas coisas: apaga todos os recursos e reservas de todas as contas, recria as 3 salas de exemplo, e limpa suas próprias reservas. Não pode ser desfeito. Continuar?',
+    success: 'Pronto — os dados foram resetados.',
+  },
   admin: {
     resourceForm: {
       newHeading: 'Novo recurso',
@@ -113,6 +128,7 @@ export const ptBR: TranslationDictionary = {
     resourceUnavailable: 'Recurso não encontrado ou indisponível',
     adminPreviewNotEligible: 'O teste como admin só está disponível para contas de usuário comum',
     adminPreviewNotActive: 'Você não está no modo de teste como admin no momento',
+    genuineAdminRequired: 'Esta ação exige uma conta admin de verdade, não um preview de admin',
     resourceNotFound: 'Recurso não encontrado',
     bookingNotFound: 'Reserva não encontrada',
     validation: {

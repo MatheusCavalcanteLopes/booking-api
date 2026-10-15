@@ -16,6 +16,8 @@ const KNOWN_MESSAGES: Record<string, string> = {
   'Resource not found or not available': 'errors.resourceUnavailable',
   'Admin preview is only available for regular user accounts': 'errors.adminPreviewNotEligible',
   'You are not currently in admin preview': 'errors.adminPreviewNotActive',
+  'This action requires a genuine admin account, not an admin preview':
+    'errors.genuineAdminRequired',
   'Resource not found': 'errors.resourceNotFound',
   'Booking not found': 'errors.bookingNotFound',
   'startTime must be in the future': 'errors.validation.startTimeFuture',
