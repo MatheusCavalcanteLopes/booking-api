@@ -1,0 +1,33 @@
+name: Reset demo data
+
+# The booking-conflict check is intentionally shared across every visitor
+# of the live demo (that's the feature being demoed — nobody can
+# double-book the same resource, no matter who booked it first). Without
+# a periodic reset, test data piles up and blocks time slots for the next
+# visitor. This wipes bookings and non-seed resources back to a clean
+# state once a day — user accounts are left untouched.
+on:
+  schedule:
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+
+jobs:
+  reset:
+    runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      DIRECT_URL: ${{ secrets.DIRECT_URL }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Reset demo data
+        run: npm run prisma:reset-demo

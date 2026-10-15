@@ -230,6 +230,14 @@ from `main`:
 anyone visiting the live demo. `.github/workflows/keep-alive.yml` pings
 the API on a schedule to keep it under that threshold.
 
+**Demo-data note**: the booking-conflict check is shared across every
+visitor on purpose (nobody can double-book the same resource, no matter
+who booked it first — that's the feature being demoed), so test data
+from one visitor would otherwise pile up and block time slots for the
+next. `.github/workflows/reset-demo.yml` wipes bookings and any
+non-seed resources back to the 3 sample resources once a day; user
+accounts are left alone.
+
 To deploy your own copy elsewhere, the same split applies generally:
 
 - **API + PostgreSQL**: deploy the root `Dockerfile` (or `docker-compose.yml`
